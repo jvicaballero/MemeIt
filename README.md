@@ -1,8 +1,4 @@
 # MemeIt
-Original App Design Project - README Template
-===
-
-# MemeIt
 
 ## Table of Contents
 1. [Overview](#Overview)
