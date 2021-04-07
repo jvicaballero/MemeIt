@@ -81,8 +81,6 @@
     * Profile Details
 
 ## Wireframes
-[Add picture of your hand sketched wireframes in this section]
-
 ![](./image.png)
 
 <a href="https://www.figma.com/file/uMXsqUTxVufKDXK8w7G2ud/Untitled?node-id=0%3A1">Link!
