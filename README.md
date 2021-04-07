@@ -82,7 +82,10 @@
 
 ## Wireframes
 [Add picture of your hand sketched wireframes in this section]
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+
+![](./image.png)
+
+<a href="https://www.figma.com/file/uMXsqUTxVufKDXK8w7G2ud/Untitled?node-id=0%3A1">Link!
 
 ### [BONUS] Digital Wireframes & Mockups
 
