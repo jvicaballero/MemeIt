@@ -144,7 +144,7 @@
 |DownvoteVal    |  Number      |   Value to display and update disliked memes     |
 
 
-## Comment <-- iffy
+## Comment (Stretch if there is time)
 
 
 | Property | Type | Description |
