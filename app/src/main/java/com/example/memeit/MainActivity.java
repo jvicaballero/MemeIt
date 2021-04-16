@@ -1,6 +1,8 @@
 package com.example.memeit;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,17 +11,20 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.memeit.models.DailyMeme;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
@@ -35,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
     Context context;
     Button button;
+    private BottomNavigationView bottomNav;
+
     Button showPopup;
 
     TextView dailyMemeTitle;
@@ -47,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         button = findViewById(R.id.button);
+        bottomNav= findViewById(R.id.botton_navigation);
         showPopup = findViewById(R.id.dailyMemeButton);
 
 
@@ -60,6 +67,28 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment;
+                switch (item.getItemId()) {
+                    case R.id.postings:
+                        Toast.makeText(MainActivity.this,"Posts",Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.settings:
+                        Toast.makeText(MainActivity.this,"Settings",Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.saved:
+                        Toast.makeText(MainActivity.this,"Saved",Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
+
 
         showPopup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +150,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
 }
