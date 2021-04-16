@@ -42,6 +42,11 @@ public class Login extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "GoogleActivity";
 
+    /*
+    if you want to work with parse user let me know we can work on it together - Akbar Haider 4/16/2021
+    */
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
