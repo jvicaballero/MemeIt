@@ -90,10 +90,94 @@
 ### [BONUS] Interactive Prototype
 
 ## Schema 
-[This section will be completed in Unit 9]
+
+-user(username,password,email)
+-meme(name,url,votes)
+-comment(user_reference, meme_reference, votes, comment_content) 
+-register(email,username,password)
+-login(email,password)
+-voting(meme_reference,up/down_vote)
+
+
+
 ### Models
+- User
+    - ObjectID
+    - Username
+    - Password
+    - Email
+    - SavedMemes
+- Meme 
+    - ObjectID
+    - MemeName
+    - MemeURL
+    - UpvoteVal
+    - DownvoteVal
+- Comment(Array of userobjects) <-- Maybe do this as a separate model.
+    - ObjectID
+    - MemeReference
+    - UserReference
+    - CommentString
+    - CommentUpvoteVal
+    - CommentDownvoteVal
+    - CreatedAt
+- 
 [Add table of models]
+## User
+|  Property | Type | Description |
+| -------- | -------- | -------- |
+| ObjectID     | String    | unique ID for users created     
+| Username |    String | Screenname for user, credential for login
+|    Password | String | Credential for login |
+|    Email | String | Email verification, Credential for login |
+|    Saved Memes| Array of Memes | A collection of saved memes the users have bookmarked|
+
+
+
+## Meme
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| ObjectID     | String     | Unique ID for different memes displayed     |
+|MemeName   |  String    |   Title of the Meme     |
+|MemeURL    |   String     |   Contains the actual URL image to display the meme     |
+|UpvoteVal     |    Number    |    Value to display and update liked memes    |
+|DownvoteVal    |  Number      |   Value to display and update disliked memes     |
+
+
+## Comment (Stretch if there is time)
+
+
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| ObjectID   | String     | Unique ID for different user comments |
+| MemeReference   | Refernce     | ObjectID of Meme the comment relates to     |
+| UserReference   | Refernce     | ObjectID of User who created post |
+| CommentString   | String     | User's Comment     |
+| CommentUpvoteVal   | Int     | Number of Upvotes for comment     |
+| CommentDownvoteVal   | Int     | Number of Downvotes for comment     |
+| CreatedAt  | Date    | Date/Time Comment was Created     |
+
+
+
 ### Networking
 - [Add list of network requests by screen ]
+- GET
+- POST
+- DELETE
+- UPDATE 
 - [Create basic snippets for each Parse network request]
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
+
+- ** API_KEY will be different for everyone else if not hardcoding it.** 
+- 
+
+## Base URL: - https://api.giphy.com/v1/gifs/trending
+
+| HTTP Verb | Endpoint | Description|
+| -------- | -------- | -------- |
+| GET    | Trending     | Takes all Trending Memes from GIPHY API     |
+|
+
+Register for API key here: https://developers.giphy.com/
+
+Giphy will actully generate the url needed for the endpoint/array of memes
