@@ -4,14 +4,14 @@
 
     <item
         android:id="@+id/postings"
-        android:title="Posts"
+        android:icon="@drawable/homeicon"
         app:showAsAction="always" />
     <item
-        android:id="@+id/settings"
-        android:title="Settings"
+        android:id="@+id/profile"
+        android:icon="@drawable/profileicon"
         app:showAsAction="always" />
     <item
-        android:id="@+id/saved"
-        android:title="Saved"
+        android:id="@+id/signout"
+        android:icon="@drawable/signout"
         app:showAsAction="always" />
 </menu>

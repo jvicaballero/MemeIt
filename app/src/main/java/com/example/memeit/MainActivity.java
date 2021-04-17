@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.memeit.Auth.Login;
 import com.example.memeit.models.DailyMeme;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
 
     Context context;
-    Button button;
     private BottomNavigationView bottomNav;
 
     Button showPopup;
@@ -54,19 +54,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button = findViewById(R.id.button);
         bottomNav= findViewById(R.id.botton_navigation);
         showPopup = findViewById(R.id.dailyMemeButton);
 
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(), Login.class));
-                finish();
-            }
-        });
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -74,13 +65,17 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.postings:
-                        Toast.makeText(MainActivity.this,"Posts",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MainActivity.this,"Posts",Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.settings:
-                        Toast.makeText(MainActivity.this,"Settings",Toast.LENGTH_SHORT).show();
+                    case R.id.profile:
+//                        Toast.makeText(MainActivity.this,"Settings",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), Profile.class));
                         break;
-                    case R.id.saved:
-                        Toast.makeText(MainActivity.this,"Saved",Toast.LENGTH_SHORT).show();
+                    case R.id.signout:
+                        Toast.makeText(MainActivity.this,"Signed Out",Toast.LENGTH_SHORT).show();
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(getApplicationContext(), Login.class));
+                        finish();
                         break;
                     default:
                         break;
