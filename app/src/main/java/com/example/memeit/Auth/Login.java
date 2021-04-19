@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity {
     EditText etUsername, etPassword;
@@ -35,6 +36,7 @@ public class Login extends AppCompatActivity {
     TextView etNew;
     private SignInButton googlesignin;
     FirebaseAuth fAuth;
+    FirebaseUser user;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "GoogleActivity";
@@ -52,6 +54,8 @@ public class Login extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         progressBar2 = findViewById(R.id.progressBar2);
         googlesignin = findViewById(R.id.googlesignin);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
 
         progressBar2.setVisibility(View.INVISIBLE);
 
