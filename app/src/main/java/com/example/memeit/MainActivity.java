@@ -2,6 +2,7 @@ package com.example.memeit;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     Button showPopup;
 
     TextView dailyMemeTitle;
-    ImageView dailyMemeImage;
+    ImageView dailyMemeImage, appbarsinout;
 
     DailyMeme dailyMeme;
 
@@ -53,6 +54,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Toolbar implementation
+        Toolbar appbar = findViewById(R.id.appbar);
+        setSupportActionBar(appbar);
+        getSupportActionBar().setTitle("MemeIt");
+        appbarsinout = appbar.findViewById(R.id.appbarsignout);
+        appbarsinout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this,"Signed Out",Toast.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getApplicationContext(), Login.class));
+                finish();
+            }
+        });
+        // End Toolbar
 
         bottomNav= findViewById(R.id.botton_navigation);
         showPopup = findViewById(R.id.dailyMemeButton);
@@ -67,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.profile:
                         startActivity(new Intent(getApplicationContext(), Profile.class));
                         break;
-                    case R.id.signout:
+                    case R.id.saved:
                         Toast.makeText(MainActivity.this,"Signed Out",Toast.LENGTH_SHORT).show();
                         FirebaseAuth.getInstance().signOut();
                         startActivity(new Intent(getApplicationContext(), Login.class));

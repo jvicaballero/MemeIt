@@ -6,27 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Profile">
+    <include
+        android:id="@+id/appbar"
+        layout="@layout/toolbar" />
 
     <Button
         android:id="@+id/editprofile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="75dp"
         app:icon="@drawable/settings"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="50dp" />
-
-    <Button
-        android:id="@+id/saved"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editprofile"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="-62dp"
-        android:layout_toEndOf="@+id/editprofile"
-        android:text="Saved"
-        app:layout_constraintStart_toEndOf="@+id/editprofile"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/botton_navigation"
