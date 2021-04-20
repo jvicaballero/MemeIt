@@ -75,11 +75,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
                 switch (item.getItemId()) {
-                    case R.id.postings:
-//                        Toast.makeText(MainActivity.this,"Posts",Toast.LENGTH_SHORT).show();
-                        break;
                     case R.id.profile:
-//                        Toast.makeText(MainActivity.this,"Settings",Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(), Profile.class));
                         break;
                     case R.id.signout:
