@@ -75,10 +75,6 @@ public class EditProfile extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), Profile.class));
                         break;
                     case R.id.saved:
-                        Toast.makeText(EditProfile.this,"Signed Out",Toast.LENGTH_SHORT).show();
-                        FirebaseAuth.getInstance().signOut();
-                        startActivity(new Intent(getApplicationContext(), Login.class));
-                        finish();
                         break;
                     default:
                         break;

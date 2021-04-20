@@ -12,6 +12,6 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/saved"
-        android:icon="@drawable/saved"
+        android:icon="@drawable/ic_baseline_bookmark_border_24"
         app:showAsAction="always" />
 </menu>
