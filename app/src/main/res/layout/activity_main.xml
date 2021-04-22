@@ -5,6 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+    <include
+        android:id="@+id/appbar"
+        app:title="MemeIt"
+        layout="@layout/toolbar" />
 
     <Button
         android:id="@+id/dailyMemeButton"
@@ -12,8 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="102dp"
+        android:layout_marginTop="83dp"
+        android:layout_marginEnd="177dp"
         android:text="Meme" />
 
     <ImageView
@@ -23,8 +27,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="141dp"
+        android:layout_marginStart="41dp"
+        android:layout_marginTop="241dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -33,9 +37,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="-1dp"
+        android:layout_marginBottom="-12dp"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/menu_bottom_navigation"
-        app:labelVisibilityMode="labeled"
         tools:layout_editor_absoluteX="144dp" />
 
 </RelativeLayout>

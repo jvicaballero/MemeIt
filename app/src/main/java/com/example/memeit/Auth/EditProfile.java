@@ -3,6 +3,7 @@ package com.example.memeit.Auth;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.memeit.MainActivity;
@@ -33,12 +35,29 @@ public class EditProfile extends AppCompatActivity {
     private String newpass, newemail1;
     private BottomNavigationView bottomNav;
     FirebaseUser user;
+    ImageView appbarsinout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+
+        // Toolbar implementation
+        Toolbar appbar = findViewById(R.id.appbar);
+        setSupportActionBar(appbar);
+        getSupportActionBar().setTitle("MemeIt");
+        appbarsinout = appbar.findViewById(R.id.appbarsignout);
+        appbarsinout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(EditProfile.this,"Signed Out",Toast.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getApplicationContext(), Login.class));
+                finish();
+            }
+        });
+        // End Toolbar
 
         changeemail = findViewById(R.id.changeemail);
         changepass = findViewById(R.id.changepass);
@@ -55,11 +74,7 @@ public class EditProfile extends AppCompatActivity {
                     case R.id.profile:
                         startActivity(new Intent(getApplicationContext(), Profile.class));
                         break;
-                    case R.id.signout:
-                        Toast.makeText(EditProfile.this,"Signed Out",Toast.LENGTH_SHORT).show();
-                        FirebaseAuth.getInstance().signOut();
-                        startActivity(new Intent(getApplicationContext(), Login.class));
-                        finish();
+                    case R.id.saved:
                         break;
                     default:
                         break;
