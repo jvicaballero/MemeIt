@@ -27,13 +27,13 @@
 **Required Must-have Stories**
 
 
-[x]Authentication
-[]Commenting 
-[]Up/Down voting posts&comments
-[]Rating System (Popularity of Memes)
-[]Profiles
-[x]save memes to a db
-[]save memes to profile
+*[x]Authentication
+*[]Commenting 
+*[]Up/Down voting posts&comments
+*[]Rating System (Popularity of Memes)
+*[]Profiles
+*[x]save memes to a db
+*[]save memes to profile
 
 
 **Optional Nice-to-have Stories**
