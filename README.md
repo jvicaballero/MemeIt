@@ -186,4 +186,4 @@ Giphy will actully generate the url needed for the endpoint/array of memes
 ## Product Weekly Demo:
 
 Week 1
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://media.giphy.com/media/oTKzWSJhtAf1Nhd8Fg/giphy.gif' width='' alt='Video Walkthrough' />
