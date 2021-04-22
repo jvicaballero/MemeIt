@@ -182,3 +182,8 @@
 Register for API key here: https://developers.giphy.com/
 
 Giphy will actully generate the url needed for the endpoint/array of memes
+
+## Product Weekly Demo:
+
+Week 1
+<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
