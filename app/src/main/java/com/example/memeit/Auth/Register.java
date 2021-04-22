@@ -13,6 +13,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +33,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class Register extends AppCompatActivity {
+
+    public static final String TAG = "Register";
+
     EditText etUsername, etEmail, etPassword, etPassword2;
     Button etButton;
     TextView etAlready;
@@ -123,6 +129,9 @@ public class Register extends AppCompatActivity {
                                         }
                                     });
                             Toast.makeText(Register.this, "User Created.", Toast.LENGTH_SHORT).show();
+
+                            //update user db in parse also before starting mainACtivity
+                            parseHandleSignupUser(email, username, password );
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         }
                         else{
@@ -146,5 +155,24 @@ public class Register extends AppCompatActivity {
                 profileImage.setImageURI(imageuri);
             }
         }
+    }
+
+    private void parseHandleSignupUser(String email, String username, String password){
+        ParseUser user = new ParseUser();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
+
+        user.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(ParseException e) {
+                if( e != null){
+                    Log.e(TAG, "Issue with parse login", e);
+                    return;
+                }
+
+                Toast.makeText(Register.this,"Success signup in parse!" , Toast.LENGTH_SHORT);
+            }
+        });
     }
 }
