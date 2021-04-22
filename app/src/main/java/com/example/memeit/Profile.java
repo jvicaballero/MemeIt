@@ -6,10 +6,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -17,12 +19,16 @@ import com.example.memeit.Auth.EditProfile;
 import com.example.memeit.Auth.Login;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Profile extends AppCompatActivity {
 
     Button editprofile;
     private BottomNavigationView bottomNav;
     ImageView appbarsinout;
+    FirebaseUser user;
+    EditText setName, setEmail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +50,29 @@ public class Profile extends AppCompatActivity {
             }
         });
         // End Toolbar
+        // start user info
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        setEmail = findViewById(R.id.setEmail);
+        setName = findViewById(R.id.setName);
+        if (user != null) {
+            // Name, email address, and profile photo Url
+            String name = user.getDisplayName();
+            setName.setText(name);
+            String email = user.getEmail();
+            setEmail.setText(email);
+            Uri photoUrl = user.getPhotoUrl();
 
-        editprofile= findViewById(R.id.editprofile);
+            // Check if user's email is verified
+            boolean emailVerified = user.isEmailVerified();
+
+            // The user's ID, unique to the Firebase project. Do NOT use this value to
+            // authenticate with your backend server, if you have one. Use
+            // FirebaseUser.getIdToken() instead.
+            String uid = user.getUid();
+        }
+        // end user info
+        //  start bottom nav
         bottomNav= findViewById(R.id.botton_navigation);
-
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -64,7 +89,8 @@ public class Profile extends AppCompatActivity {
                 return true;
             }
         });
-
+        // end bottom nav
+        editprofile= findViewById(R.id.editprofile);
         editprofile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
