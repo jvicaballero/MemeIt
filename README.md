@@ -185,5 +185,5 @@ Giphy will actully generate the url needed for the endpoint/array of memes
 
 ## Product Weekly Demo:
 
-Week 1
+# Week 1: Users can signup, login, and see the meme of the day.
 <img src='https://media.giphy.com/media/oTKzWSJhtAf1Nhd8Fg/giphy.gif' width='' alt='Video Walkthrough' />
