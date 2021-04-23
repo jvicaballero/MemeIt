@@ -28,6 +28,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.parse.GetCallback;
+import com.parse.LogInCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 public class Login extends AppCompatActivity {
     EditText etUsername, etPassword;
@@ -116,6 +122,7 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(Login.this, "Sign in Successful.", Toast.LENGTH_SHORT).show();
+                            parseHandleLoginUser(email,password);
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         }
                         else{
@@ -124,6 +131,8 @@ public class Login extends AppCompatActivity {
                         }
                     }
                 });
+
+
             }
         });
 
@@ -160,5 +169,23 @@ public class Login extends AppCompatActivity {
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
         }
+    }
+
+    //Instead of passing username to login, use the email. Should still work this way
+    private void parseHandleLoginUser(String email, String password){
+
+        ParseUser.logInInBackground(email, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if( e!= null){
+                    Log.e("ParseLogin", "Issue with Login" , e );
+                }
+                else {
+                    ParseUser currentUser = ParseUser.getCurrentUser();
+                    Log.i("ParseLogin" , "CurrentUserLoggedinParse: " + currentUser.getEmail());
+                }
+            }
+        });
+
     }
 }
