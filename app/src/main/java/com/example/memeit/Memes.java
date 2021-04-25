@@ -31,11 +31,11 @@ public class Memes extends ParseObject {
     public void setmemeName(String name) {
         put(memeName,name);
     }
-    public void setUpvoteVal(String upvote) {
-        put(memeName,upvote);
+    public void setUpvoteVal(Integer upvote) {
+        put(UpvoteVal,upvote);
     }
-    public void setDownvoteVal(String downvote) {
-        put(memeName,downvote);
+    public void setDownvoteVal(Integer downvote) {
+        put(DownvoteVal,downvote);
     }
 
 }
