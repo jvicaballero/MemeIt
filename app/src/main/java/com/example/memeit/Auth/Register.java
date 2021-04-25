@@ -8,17 +8,11 @@ import android.os.Bundle;
 import com.example.memeit.MainActivity;
 import com.example.memeit.R;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,7 +37,6 @@ public class Register extends AppCompatActivity {
     ProgressBar progressBar;
     FirebaseUser user;
     ImageView profileImage;
-    StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +52,6 @@ public class Register extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         fAuth = FirebaseAuth.getInstance();
-        storageReference = FirebaseStorage.getInstance().getReference();
         progressBar = findViewById(R.id.progressBar);
 
         progressBar.setVisibility(View.INVISIBLE);
@@ -149,32 +141,10 @@ public class Register extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1000){
-            if(resultCode == Activity.RESULT_OK){
+            if(requestCode == Activity.RESULT_OK){
                 Uri imageuri = data.getData();
-//                profileImage.setImageURI(imageuri);
-                uploadImageToFireBase(imageuri);
+                profileImage.setImageURI(imageuri);
             }
         }
-    }
-
-    private void uploadImageToFireBase(Uri imageuri) {
-        // upload image to firebase storage
-        StorageReference fileRef = storageReference.child("profile.jpg");
-        fileRef.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-               fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                   @Override
-                   public void onSuccess(Uri uri) {
-                       Picasso.get().load(uri).into(profileImage);
-                   }
-               });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(Register.this, "Image Failed to Upload", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

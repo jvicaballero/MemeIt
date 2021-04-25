@@ -123,6 +123,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPassword2"
-        app:srcCompat="@drawable/fui_ic_check_circle_black_128dp" />
+        app:srcCompat="@drawable/profileicon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
