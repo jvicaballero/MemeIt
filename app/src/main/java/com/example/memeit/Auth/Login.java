@@ -1,7 +1,6 @@
-package com.example.memeit;
+package com.example.memeit.Auth;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,21 +15,25 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.memeit.MainActivity;
+import com.example.memeit.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
+import com.parse.GetCallback;
+import com.parse.LogInCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 public class Login extends AppCompatActivity {
     EditText etUsername, etPassword;
@@ -39,6 +42,7 @@ public class Login extends AppCompatActivity {
     TextView etNew;
     private SignInButton googlesignin;
     FirebaseAuth fAuth;
+    FirebaseUser user;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "GoogleActivity";
@@ -56,6 +60,8 @@ public class Login extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         progressBar2 = findViewById(R.id.progressBar2);
         googlesignin = findViewById(R.id.googlesignin);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
 
         progressBar2.setVisibility(View.INVISIBLE);
 
@@ -116,6 +122,7 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(Login.this, "Sign in Successful.", Toast.LENGTH_SHORT).show();
+                            parseHandleLoginUser(email,password);
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         }
                         else{
@@ -124,6 +131,8 @@ public class Login extends AppCompatActivity {
                         }
                     }
                 });
+
+
             }
         });
 
@@ -152,6 +161,7 @@ public class Login extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
+            Toast.makeText(Login.this, "Signed in.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(Login.this, MainActivity.class);
             startActivity(intent);
         } catch (ApiException e) {
@@ -159,5 +169,23 @@ public class Login extends AppCompatActivity {
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
         }
+    }
+
+    //Instead of passing username to login, use the email. Should still work this way
+    private void parseHandleLoginUser(String email, String password){
+
+        ParseUser.logInInBackground(email, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if( e!= null){
+                    Log.e("ParseLogin", "Issue with Login" , e );
+                }
+                else {
+                    ParseUser currentUser = ParseUser.getCurrentUser();
+                    Log.i("ParseLogin" , "CurrentUserLoggedinParse: " + currentUser.getEmail());
+                }
+            }
+        });
+
     }
 }

@@ -2,16 +2,20 @@ package com.example.memeit;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,9 +27,17 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.memeit.Auth.Login;
 import com.example.memeit.models.DailyMeme;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
+
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,17 +47,19 @@ import okhttp3.Headers;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
+    Button button;
+
+
     public static final String TRENDING_MEME_URL = "https://api.giphy.com/v1/gifs/trending?api_key=85yQsmwttEKrF5w5R3AAPMd3UpbVwKsC&limit=25&rating=g";
-    public static final String TAG = "MainActivity";
 
     Context context;
-    Button button;
     private BottomNavigationView bottomNav;
 
     Button showPopup;
 
     TextView dailyMemeTitle;
-    ImageView dailyMemeImage;
+    ImageView dailyMemeImage, appbarsinout;
 
     DailyMeme dailyMeme;
 
@@ -54,33 +68,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button = findViewById(R.id.button);
-        bottomNav= findViewById(R.id.botton_navigation);
-        showPopup = findViewById(R.id.dailyMemeButton);
-
-
-        button.setOnClickListener(new View.OnClickListener() {
+        // Toolbar implementation
+        Toolbar appbar = findViewById(R.id.appbar);
+        setSupportActionBar(appbar);
+        getSupportActionBar().setTitle("MemeIt");
+        appbarsinout = appbar.findViewById(R.id.appbarsignout);
+        appbarsinout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(MainActivity.this,"Signed Out",Toast.LENGTH_SHORT).show();
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(getApplicationContext(), Login.class));
                 finish();
             }
         });
+        // End Toolbar
+
+        bottomNav= findViewById(R.id.botton_navigation);
+        showPopup = findViewById(R.id.dailyMemeButton);
+
+
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
                 switch (item.getItemId()) {
-                    case R.id.postings:
-                        Toast.makeText(MainActivity.this,"Posts",Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.settings:
-                        Toast.makeText(MainActivity.this,"Settings",Toast.LENGTH_SHORT).show();
+                    case R.id.profile:
+                        startActivity(new Intent(getApplicationContext(), Profile.class));
                         break;
                     case R.id.saved:
-                        Toast.makeText(MainActivity.this,"Saved",Toast.LENGTH_SHORT).show();
                         break;
                     default:
                         break;
@@ -105,10 +122,10 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject jsonObject = json.jsonObject;
                 try {
                     JSONArray data = jsonObject.getJSONArray("data");
-                    Log.i(TAG, "Results: " + data.toString());
+//                    Log.i(TAG, "Results: " + data.toString());
                     dailyMeme = DailyMeme.fromJsonArray(data);
 
-                    Log.i(TAG, "the dailyMeme:" + dailyMeme);
+//                    Log.i(TAG, "the dailyMeme:" + dailyMeme);
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit json exception", e);
                     e.printStackTrace();
@@ -120,14 +137,45 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "onFailure");
             }
         });
+        
+//        queryMemes();
+    }
+//testing to see if the databse connection is working properly -- Akbar Haider 4/16/2021
+    //you can see the queries in logcat with the tag MainActivity. The meme names will show up that is in our database right now
+    private void queryMemes() {
+        ParseQuery<Memes> query = ParseQuery.getQuery(Memes.class);
+        query.include(Memes.memeURL);
+        query.include(Memes.UpvoteVal);
+        query.include(Memes.DownvoteVal);
+        query.findInBackground(new FindCallback<Memes>() {
+            @Override
+            public void done(List<Memes> memes, ParseException e) {
+                if(e != null){
+                    Log.e(TAG,"Issue with Getting Memes",e);
+                    return;
+                }
+                for(Memes meme : memes) {
+                    Log.i(TAG,"Meme Name :  " + meme.getmemeName() + ". " +  "MEME URL: " + meme.getMemeURL() + ". " + " Meme Upvote: " + meme.getUpvoteVal() + ". " + "Meme Downvote: " + meme.getDownvoteVal());
+
+
+                }
+
+            }
+        });
+
     }
 
+    //function to display a popup of a queried Meme from API. --Jasper
+    //This will also be responsible for the call to add the new meme to the back4app db
     public void createDailyMemePopup(){
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View dailyMemePopup = inflater.inflate(R.layout.daily_meme_popup_page, null);
 
         dailyMemeTitle = dailyMemePopup.findViewById(R.id.tvDailyMemeTitle);
         dailyMemeImage = dailyMemePopup.findViewById(R.id.ivShowDailyMeme);
+
+        //in here, call the function to add the queried meme
+        addMeme(dailyMeme.getDailyMemeTitle(), dailyMeme.getDailyMemePath());
 
         dailyMemeTitle.setText(dailyMeme.getDailyMemeTitle());
         Glide.with(this).asGif().load(dailyMeme.getDailyMemePath()).into(dailyMemeImage);
@@ -151,4 +199,62 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //when a meme has been queried and it is not already added in the parse db,
+    //add it to the parse db
+    private void addMeme(String title, String URL){
+        //Query the db first to check if record already exists.
+        //can just look for if the title string already exists in db
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("memes");
+        query.whereStartsWith("memeName", title);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if(objects.size() == 0)
+                {
+                    //If meme record does not yet exist, add it to db.
+                    //upvote downvote values should start as 0 in new records
+                    Memes meme = new Memes();
+                    meme.setMemeURL(URL);
+                    meme.setmemeName(title);
+                    meme.setDownvoteVal(0);
+                    meme.setUpvoteVal(0);
+
+                    meme.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if( e!= null){
+                                Log.e(TAG, "Error while saving meme to db" , e);
+                            }
+                            else
+                                Log.i(TAG, "new meme has been added! ");
+                        }
+                    });
+                }
+                Log.d(TAG, "Parse query search results " + objects);
+            }
+        });
+//        Log.d(TAG, "Parse query search results " + results);
+
+
+
+    }
+//    //If meme record does not yet exist, add it to db.
+//    //upvote downvote values should start as 0 in new records
+//    Memes meme = new Memes();
+//                        meme.setMemeURL(URL);
+//                        meme.setmemeName(title);
+//                        meme.setDownvoteVal(0);
+//                        meme.setUpvoteVal(0);
+//
+//                        meme.saveInBackground(new SaveCallback() {
+//        @Override
+//        public void done(ParseException e) {
+//            if( e!= null){
+//                Log.e(TAG, "Error while saving meme to db" , e);
+//            }
+//
+//            Log.i(TAG, "new meme has been added! ");
+//        }
+//    });
 }
+
