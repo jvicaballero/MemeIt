@@ -20,13 +20,13 @@ import com.example.memeit.Auth.Login;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.parse.ParseUser;
 
 public class Profile extends AppCompatActivity {
 
     Button editprofile;
     private BottomNavigationView bottomNav;
     ImageView appbarsinout;
-    FirebaseUser user;
     EditText setName, setEmail;
 
 
@@ -43,32 +43,23 @@ public class Profile extends AppCompatActivity {
         appbarsinout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ParseUser.getCurrentUser().logOut();
                 Toast.makeText(Profile.this,"Signed Out",Toast.LENGTH_SHORT).show();
-                FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(getApplicationContext(), Login.class));
                 finish();
             }
         });
         // End Toolbar
         // start user info
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        ParseUser currentUser = ParseUser.getCurrentUser();
         setEmail = findViewById(R.id.setEmail);
         setName = findViewById(R.id.setName);
-        if (user != null) {
+        if (currentUser != null) {
             // Name, email address, and profile photo Url
-            String name = user.getDisplayName();
+            String name = String.valueOf(currentUser.getUsername());
             setName.setText(name);
-            String email = user.getEmail();
+            String email = currentUser.getEmail();
             setEmail.setText(email);
-            Uri photoUrl = user.getPhotoUrl();
-
-            // Check if user's email is verified
-            boolean emailVerified = user.isEmailVerified();
-
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getIdToken() instead.
-            String uid = user.getUid();
         }
         // end user info
         //  start bottom nav

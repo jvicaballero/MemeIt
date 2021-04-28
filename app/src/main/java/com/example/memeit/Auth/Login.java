@@ -65,25 +65,25 @@ public class Login extends AppCompatActivity {
 
         progressBar2.setVisibility(View.INVISIBLE);
 
-        // google sign in
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
+//        // google sign in
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestEmail()
+//                .build();
+//
+//        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        googlesignin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.googlesignin:
-                        signIn();
-                        break;
-                    // ...
-                }
-
-            }
-        });
+//        googlesignin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                switch (v.getId()) {
+//                    case R.id.googlesignin:
+//                        signIn();
+//                        break;
+//                    // ...
+//                }
+//
+//            }
+//        });
 
         etNew.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,18 +116,17 @@ public class Login extends AppCompatActivity {
 
                 progressBar2.setVisibility(View.VISIBLE);
 
-
-                fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                //Instead of passing username to login, use the email. Should still work this way
+                ParseUser.logInInBackground(email, password, new LogInCallback() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(Login.this, "Sign in Successful.", Toast.LENGTH_SHORT).show();
-                            parseHandleLoginUser(email,password);
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    public void done(ParseUser user, ParseException e) {
+                        if( e!= null){
+                            Log.e("ParseLogin", "Issue with Login" , e );
                         }
-                        else{
-                            Toast.makeText(Login.this, "Error Logging in" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            progressBar2.setVisibility(View.GONE);
+                        else {
+                            ParseUser currentUser = ParseUser.getCurrentUser();
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            Log.i("ParseLogin" , "CurrentUserLoggedinParse: " + currentUser.getEmail());
                         }
                     }
                 });
@@ -138,54 +137,37 @@ public class Login extends AppCompatActivity {
 
     }
 
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
+//    private void signIn() {
+//        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+//        startActivityForResult(signInIntent, RC_SIGN_IN);
+//    }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
-        }
-    }
-
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
-            // Signed in successfully, show authenticated UI.
-            Toast.makeText(Login.this, "Signed in.", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(Login.this, MainActivity.class);
-            startActivity(intent);
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-        }
-    }
-
-    //Instead of passing username to login, use the email. Should still work this way
-    private void parseHandleLoginUser(String email, String password){
-
-        ParseUser.logInInBackground(email, password, new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
-                if( e!= null){
-                    Log.e("ParseLogin", "Issue with Login" , e );
-                }
-                else {
-                    ParseUser currentUser = ParseUser.getCurrentUser();
-                    Log.i("ParseLogin" , "CurrentUserLoggedinParse: " + currentUser.getEmail());
-                }
-            }
-        });
-
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+//        if (requestCode == RC_SIGN_IN) {
+//            // The Task returned from this call is always completed, no need to attach
+//            // a listener.
+//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+//            handleSignInResult(task);
+//        }
+//    }
+//
+//    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+//        try {
+//            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+//
+//            // Signed in successfully, show authenticated UI.
+//            Toast.makeText(Login.this, "Signed in.", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent(Login.this, MainActivity.class);
+//            startActivity(intent);
+//        } catch (ApiException e) {
+//            // The ApiException status code indicates the detailed failure reason.
+//            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+//            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+//        }
+//    }
+//
 }
