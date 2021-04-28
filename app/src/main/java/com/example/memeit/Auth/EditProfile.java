@@ -165,12 +165,15 @@ public class EditProfile extends AppCompatActivity {
             public void onClick(View v) {
                 if(newemail.getText().toString().equals(confirmnewemail.getText().toString())){
                     parseUser.setEmail(newemail.getText().toString());
+                    parseUser.saveInBackground();
                     Toast.makeText(EditProfile.this,"Email Updated",Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
+                //shouldn't this part be different, correspond to the password button? This is still in the change email section.
                 else{
-                    Toast.makeText(EditProfile.this,"Email failed to Updated",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(EditProfile.this,"Email failed to Updated",Toast.LENGTH_SHORT).show();
                     Log.i(TAG , newpassword.getText().toString() + confirmnewpassword.getText().toString());
+//                    Log.e(TAG , error);
                 }
             }
         });
