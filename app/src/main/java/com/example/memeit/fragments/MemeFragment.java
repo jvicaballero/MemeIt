@@ -10,8 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.memeit.Meme;
-import com.example.memeit.MemeAdapter;
+import com.example.memeit.MemesAdapter;
+import com.example.memeit.Memes;
 import com.example.memeit.R;
 
 import java.util.ArrayList;
@@ -21,8 +21,8 @@ public class MemeFragment extends Fragment {
 
     public static final String TAG= "MemeFragment";
     private RecyclerView rvPosts;
-    protected List<Meme> allMemes;
-    protected MemeAdapter adapter;
+    protected List<Memes> allMemes;
+    protected MemesAdapter adapter;
 
 
     public MemeFragment(){
