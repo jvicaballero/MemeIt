@@ -121,13 +121,17 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void done(ParseUser user, ParseException e) {
                         if( e!= null){
+                            Toast.makeText(Login.this, "Issue with login ", Toast.LENGTH_SHORT).show();
                             Log.e("ParseLogin", "Issue with Login" , e );
                         }
                         else {
                             ParseUser currentUser = ParseUser.getCurrentUser();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             Log.i("ParseLogin" , "CurrentUserLoggedinParse: " + currentUser.getEmail());
+
                         }
+                        progressBar2.setVisibility(View.INVISIBLE);
+
                     }
                 });
 
