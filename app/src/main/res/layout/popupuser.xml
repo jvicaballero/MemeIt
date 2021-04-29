@@ -10,29 +10,32 @@
         android:id="@+id/saveuser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="change email"
-        app:layout_constraintTop_toBottomOf="@+id/confirmuser"
-        tools:layout_editor_absoluteX="132dp" />
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="5dp"
+        android:text="change user"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confirmuser" />
 
     <EditText
         android:id="@+id/newuser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="172dp"
         android:ems="10"
-        android:hint="New Email"
+        android:hint="New User"
         android:inputType="textEmailAddress"
-        tools:layout_editor_absoluteX="104dp"
-        tools:layout_editor_absoluteY="175dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/confirmuser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="104dp"
         android:ems="10"
-        android:hint="Confirm Email"
+        android:hint="Confirm User"
         android:inputType="textEmailAddress"
-        app:layout_constraintTop_toBottomOf="@+id/newuser"
-        tools:layout_editor_absoluteX="104dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newuser" />
 </androidx.constraintlayout.widget.ConstraintLayout>

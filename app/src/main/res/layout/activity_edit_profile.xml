@@ -38,6 +38,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/changeemail"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="129dp"
         android:text="change password" />
+
+    <Button
+        android:id="@+id/changeuser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/changepass"
+        android:layout_marginTop="100dp"
+        android:text="change username" />
 </RelativeLayout>
