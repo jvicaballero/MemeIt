@@ -136,7 +136,7 @@ public class EditProfile extends AppCompatActivity {
                     }
                 }
                 else{
-                    Toast.makeText(EditProfile.this,"Password failed to Updated" + newpassword + confirmnewpassword,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProfile.this,"Username failed to Updated" + newpassword + confirmnewpassword,Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -198,13 +198,13 @@ public class EditProfile extends AppCompatActivity {
                 if(oldemail.equals(newemail.getText().toString())){
                     newemail.setError("Cannot use old email");
                 }
-                if(newuser.getText().toString().isEmpty()){
+                if(newemail.getText().toString().isEmpty()){
                     newemail.setError("Email cannot be empty");
                 }
                 else {
-                    parseUser.setPassword(String.valueOf(newpassword));
+                    parseUser.setEmail(String.valueOf(newemail));
                     parseUser.saveInBackground();
-                    Toast.makeText(EditProfile.this, "Password Updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProfile.this, "Email Updated", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
                 }
