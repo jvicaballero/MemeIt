@@ -28,8 +28,7 @@
 
 
 * [x]Authentication
-* []Commenting 
-* []Up/Down voting posts&comments
+* []Up/Down voting posts
 * []Rating System (Popularity of Memes)
 * []Profiles
 * [x]save memes to a db
@@ -40,6 +39,8 @@
 
 * Advance Settings such chanage password
 * a friend list of users
+* Commenting 
+* Upvoting/downvoting comments
 
 
 ### 2. Screen Archetypes
@@ -187,3 +188,7 @@ Giphy will actully generate the url needed for the endpoint/array of memes
 
 ### Week 1: Users can signup, login, and see the meme of the day.
 <img src='https://media.giphy.com/media/oTKzWSJhtAf1Nhd8Fg/giphy.gif' width='' alt='Video Walkthrough' />
+
+### Week 2: Users can edit their credentials and login with the edited credentials
+<img src='https://media.giphy.com/media/7tdZc23V1cpAJfzCoV/giphy.gif' width='' alt='Video Walkthrough' />
+
