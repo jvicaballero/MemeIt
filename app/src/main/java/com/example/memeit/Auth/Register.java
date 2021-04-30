@@ -2,6 +2,8 @@ package com.example.memeit.Auth;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -14,6 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -31,6 +35,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
 
 public class Register extends AppCompatActivity {
 
@@ -131,7 +137,7 @@ public class Register extends AppCompatActivity {
                             Toast.makeText(Register.this, "User Created.", Toast.LENGTH_SHORT).show();
 
                             //update user db in parse also before starting mainACtivity
-                            parseHandleSignupUser(email, username, password );
+                            parseHandleSignupUser(email, username, password,  );
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         }
                         else{
@@ -153,6 +159,14 @@ public class Register extends AppCompatActivity {
             if(requestCode == Activity.RESULT_OK){
                 Uri imageuri = data.getData();
                 profileImage.setImageURI(imageuri);
+                Bitmap bitmapImage = ((BitmapDrawable) profileImage.getDrawable()).getBitmap(); // profile pic is the imageview
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                ParseFile file = new ParseFile("image.png", byteArray);
+                ParseObject Images = new ParseObject("Images");
+                Images.put("Profilepicture", file);
+                Images.saveInBackground();
             }
         }
     }
@@ -170,7 +184,6 @@ public class Register extends AppCompatActivity {
                     Log.e(TAG, "Issue with parse login", e);
                     return;
                 }
-
                 Toast.makeText(Register.this,"Success signup in parse!" , Toast.LENGTH_SHORT);
             }
         });
