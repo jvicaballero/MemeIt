@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +29,8 @@ import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.memeit.Auth.Login;
+import com.example.memeit.fragments.HomeFragment;
+import com.example.memeit.fragments.ProfileFragment;
 import com.example.memeit.models.DailyMeme;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TRENDING_MEME_URL = "https://api.giphy.com/v1/gifs/trending?api_key=85yQsmwttEKrF5w5R3AAPMd3UpbVwKsC&limit=25&rating=g";
 
-    Context context;
     private BottomNavigationView bottomNav;
 
     Button showPopup;
@@ -62,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView dailyMemeImage, appbarsinout;
 
     DailyMeme dailyMeme;
+
+    final FragmentManager fragmentManager= getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,14 +98,20 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
                 switch (item.getItemId()) {
+                    case R.id.postings:
+                        fragment = new HomeFragment();
+                        break;
                     case R.id.profile:
-                        startActivity(new Intent(getApplicationContext(), Profile.class));
+                        fragment = new ProfileFragment();
                         break;
                     case R.id.saved:
+                        fragment = new ProfileFragment();
                         break;
                     default:
+                        fragment = new HomeFragment();
                         break;
                 }
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;
             }
         });

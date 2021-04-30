@@ -41,8 +41,5 @@ public class MemeFragment extends Fragment {
 
         rvPosts= view.findViewById(R.id.rvMemes);
         allMemes= new ArrayList<>();
-
-
-
     }
 }

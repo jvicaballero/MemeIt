@@ -19,14 +19,8 @@ import android.widget.Toast;
 import com.example.memeit.MainActivity;
 import com.example.memeit.Profile;
 import com.example.memeit.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 public class EditProfile extends AppCompatActivity {
     public static final String TAG = "EditProfile";
@@ -63,7 +57,7 @@ public class EditProfile extends AppCompatActivity {
         // End Toolbar
 
         changeemail = findViewById(R.id.changeemail);
-        changepass = findViewById(R.id.changepass);
+        changepass = findViewById(R.id.changename);
         bottomNav= findViewById(R.id.botton_navigation);
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
