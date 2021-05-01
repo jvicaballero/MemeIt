@@ -14,8 +14,9 @@
         android:id="@+id/changeemail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="75dp"
+        android:layout_below="@+id/profileimage"
+        android:layout_marginHorizontal="110dp"
+        android:layout_marginTop="50dp"
         android:text="change email"
         tools:layout_editor_absoluteX="156dp"
         tools:layout_editor_absoluteY="492dp" />
@@ -38,7 +39,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/changeemail"
-        android:layout_marginTop="129dp"
+        android:layout_marginHorizontal="100dp"
+        android:layout_marginTop="50dp"
         android:text="change password" />
 
     <Button
@@ -46,6 +48,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/changepass"
-        android:layout_marginTop="100dp"
+        android:layout_marginHorizontal="100dp"
+        android:layout_marginTop="50dp"
         android:text="change username" />
+
+    <ImageView
+        android:id="@+id/profileimage"
+        android:layout_width="154dp"
+        android:layout_height="124dp"
+        android:layout_below="@+id/appbar"
+        android:layout_marginHorizontal="110dp"
+        android:layout_marginTop="100dp"
+        app:srcCompat="@drawable/profileicon" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appbar"
+        android:layout_marginHorizontal="115dp"
+        android:layout_marginTop="50dp"
+        android:text="Change Profile Picture" />
 </RelativeLayout>
