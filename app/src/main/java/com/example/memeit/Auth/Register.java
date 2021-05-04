@@ -161,11 +161,9 @@ public class Register extends AppCompatActivity {
             public void done(ParseException e) {
                 if(null == e){
                     user.put("profpic" , file);
-
                 }
                 else{
                     Log.i(TAG, "No file uploaded");
-
                 }
             }
         });

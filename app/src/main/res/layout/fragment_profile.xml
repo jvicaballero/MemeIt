@@ -10,8 +10,9 @@
         android:id="@+id/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="500dp"
+        android:layout_below="@+id/changeemail"
+        android:layout_marginHorizontal="150dp"
+        android:layout_marginTop="8dp"
         app:icon="@drawable/signout"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="50dp" />
@@ -20,10 +21,10 @@
         android:id="@+id/setName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/changeemail"
+        android:layout_below="@+id/setEmail"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="91dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName" />
@@ -32,25 +33,13 @@
         android:id="@+id/setEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/profileimage"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="93dp"
         android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress" />
-
-    <Button
-        android:id="@+id/changeemail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/setEmail"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
-        android:text="change email"
-        tools:layout_editor_absoluteX="156dp"
-        tools:layout_editor_absoluteY="492dp" />
 
     <Button
         android:id="@+id/changename"
@@ -58,43 +47,57 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/setName"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
-        android:text="change name" />
+        android:layout_marginStart="106dp"
+        android:layout_marginTop="20dp"
+        android:text="change username" />
 
     <Button
         android:id="@+id/changepass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/curPass"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
-        android:text="Change Password" />
-
-    <EditText
-        android:id="@+id/setPass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/changename"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
-        android:ems="10"
-        android:hint="New Password"
-        android:inputType="textPassword" />
+        android:layout_marginStart="106dp"
+        android:layout_marginTop="20dp"
+        android:text="Change Password" />
 
-    <EditText
-        android:id="@+id/curPass"
+    <ImageView
+        android:id="@+id/profileimage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginHorizontal="100dp"
+        android:layout_marginTop="0dp"
+        android:src="@drawable/profileicon" />
+
+    <Button
+        android:id="@+id/changeemail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/setPass"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
-        android:ems="10"
-        android:hint="Current Password"
-        android:inputType="textPassword" />
+        android:layout_below="@+id/changepass"
+        android:layout_marginHorizontal="120dp"
+        android:layout_marginTop="20dp"
+        android:text="CHANGE EMAIL" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profileimage"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="-70dp"
+        android:layout_toStartOf="@+id/setEmail"
+        android:text="Email" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/setEmail"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="-80dp"
+        android:layout_toStartOf="@+id/setName"
+        android:text="Username" />
 
 
 </RelativeLayout>
