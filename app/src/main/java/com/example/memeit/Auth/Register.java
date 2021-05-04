@@ -19,6 +19,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import androidx.annotation.NonNull;
@@ -28,7 +29,6 @@ import androidx.core.content.FileProvider;
 
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.service.autofill.SaveCallback;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -140,29 +140,63 @@ public class Register extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK){
                 Uri imageuri = data.getData();
                 profileImage.setImageURI(imageuri);
+                Log.i(TAG, "set in profileImage" + profileImage);
             }
         }
     }
 
     private void parseHandleSignupUser(String email, String username, String password, byte[] byteArray){
+
         ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);
 
+
         // profile picture
         ParseFile file = new ParseFile("image.png", byteArray);
+
+        file.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(null == e){
+                    user.put("profpic" , file);
+
+                }
+                else{
+                    Log.i(TAG, "No file uploaded");
+
+                }
+            }
+        });
+
+        Log.i(TAG, "Check contents of byteArray" + byteArray);
+
         ParseObject Images = new ParseObject("Images");
         Images.put("Profilepicture", file);
         Images.put("test", "lol");
 //        Images.add("user", user.getObjectId());
-        Images.saveInBackground();
+//        Images.saveInBackground();
+
 
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
+                    Images.put("User_ID" , ParseUser.getCurrentUser());
+                    Images.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e == null){
+                                Log.i(TAG, "New Record For images is saved!");
+                            }
+                            else{
+                                Log.e(TAG, "Issue with adding new Image record " + e);
+                            }
+                        }
+                    });
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
                 } else {
                     ParseUser.logOut();
                     Toast.makeText(Register.this, e.getMessage(), Toast.LENGTH_LONG).show();
