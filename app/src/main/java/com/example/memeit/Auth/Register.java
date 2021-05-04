@@ -114,10 +114,6 @@ public class Register extends AppCompatActivity {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
-//                ParseFile file = new ParseFile("image.png", byteArray);
-//                ParseObject Images = new ParseObject("Images");
-//                Images.put("Profilepicture", file);
-//                Images.saveInBackground();
 
                 //update user db in parse also before starting mainACtivity
                 parseHandleSignupUser(email, username, password, byteArray);
@@ -158,6 +154,7 @@ public class Register extends AppCompatActivity {
         ParseFile file = new ParseFile("image.png", byteArray);
         ParseObject Images = new ParseObject("Images");
         Images.put("Profilepicture", file);
+        Images.put("test", "lol");
 //        Images.add("user", user.getObjectId());
         Images.saveInBackground();
 
