@@ -28,6 +28,7 @@ public class Profile extends AppCompatActivity {
     private BottomNavigationView bottomNav;
     ImageView appbarsinout;
     EditText setName, setEmail;
+    private ImageView profileimage1;
 
 
     @Override
@@ -81,6 +82,11 @@ public class Profile extends AppCompatActivity {
             }
         });
         // end bottom nav
+        // set user profile picture
+        profileimage1 = findViewById(R.id.profimage1);
+
+        // end user profile
+        // start edit profile
         editprofile= findViewById(R.id.editprofile);
         editprofile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,5 +94,6 @@ public class Profile extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), EditProfile.class));
             }
         });
+        // end user profile
     }
 }

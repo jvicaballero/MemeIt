@@ -30,7 +30,7 @@ public class EditProfile extends AppCompatActivity {
     private EditText newpassword, confirmnewpassword;
     private EditText newemail, confirmnewemail;
     private EditText newuser, confirmuser;
-    private String newpass, newemail1;
+    private ImageView profileimage;
     private BottomNavigationView bottomNav;
     ParseUser parseUser = ParseUser.getCurrentUser();
     ImageView appbarsinout;
@@ -61,6 +61,11 @@ public class EditProfile extends AppCompatActivity {
         changepass = findViewById(R.id.changepass);
         changeuser = findViewById(R.id.changeuser);
         bottomNav= findViewById(R.id.botton_navigation);
+        profileimage= findViewById(R.id.profimage);
+
+        // implement user change profile picture
+
+        // end user profile picture
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
