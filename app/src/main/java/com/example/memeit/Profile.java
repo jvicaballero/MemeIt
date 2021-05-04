@@ -60,7 +60,6 @@ public class Profile extends AppCompatActivity {
         }
         // end user info
         //  start bottom nav
-        bottomNav= findViewById(R.id.botton_navigation);
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

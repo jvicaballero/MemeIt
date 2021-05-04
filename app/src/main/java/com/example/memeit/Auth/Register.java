@@ -137,7 +137,7 @@ public class Register extends AppCompatActivity {
                             Toast.makeText(Register.this, "User Created.", Toast.LENGTH_SHORT).show();
 
                             //update user db in parse also before starting mainACtivity
-                            parseHandleSignupUser(email, username, password,  );
+                            parseHandleSignupUser(email, username, password );
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         }
                         else{

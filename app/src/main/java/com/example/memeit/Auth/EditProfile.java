@@ -19,17 +19,22 @@ import android.widget.Toast;
 import com.example.memeit.MainActivity;
 import com.example.memeit.Profile;
 import com.example.memeit.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 public class EditProfile extends AppCompatActivity {
     public static final String TAG = "EditProfile";
     private AlertDialog.Builder dialogbuilder;
     private AlertDialog dialog;
-    Button changeemail, changepass, savenewpassword, saveemail, changeuser, saveuser;
+    Button changeemail, changepass, savenewpassword, saveemail;
     private EditText newpassword, confirmnewpassword;
     private EditText newemail, confirmnewemail;
-    private EditText newuser, confirmuser;
     private String newpass, newemail1;
     private BottomNavigationView bottomNav;
     ParseUser parseUser = ParseUser.getCurrentUser();
@@ -59,8 +64,6 @@ public class EditProfile extends AppCompatActivity {
 
         changeemail = findViewById(R.id.changeemail);
         changepass = findViewById(R.id.changepass);
-        changeuser = findViewById(R.id.changeuser);
-        bottomNav= findViewById(R.id.botton_navigation);
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -94,53 +97,8 @@ public class EditProfile extends AppCompatActivity {
                 createNewContactDialogpass();
             }
         });
-        changeuser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createNewContactDialoguser();
-            }
-        });
 
 
-    }
-
-    public void createNewContactDialoguser(){
-        dialogbuilder = new AlertDialog.Builder(this);
-        final View conactPopupView = getLayoutInflater().inflate(R.layout.popupuser, null);
-        newuser = (EditText) conactPopupView.findViewById(R.id.newuser);
-        confirmuser = (EditText) conactPopupView.findViewById(R.id.confirmuser);
-        saveuser  = (Button) conactPopupView.findViewById(R.id.saveuser);
-        // get the old value of old username
-        String olduser = ParseUser.getCurrentUser().getUsername();
-        dialogbuilder.setView(conactPopupView);
-        dialog = dialogbuilder.create();
-        dialog.show();
-
-        saveuser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(newuser.getText().toString().equals(confirmuser.getText().toString())){
-                    // check if the old user name is being used
-                    if(olduser.equals(newuser.getText().toString())){
-                        newuser.setError("Cannot use old username");
-                    }
-                    // check the length of username
-                    if(newuser.length()==0){
-                        newuser.setError("Username Cannot be empty");
-                    }
-                    else {
-                        parseUser.setUsername(newuser.getText().toString());
-                        parseUser.saveInBackground();
-                        Toast.makeText(EditProfile.this, "Username Updated", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                    }
-                }
-                else{
-                    Toast.makeText(EditProfile.this,"Username failed to Updated" ,Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                }
-            }
-        });
     }
 
     public void createNewContactDialogpass(){
@@ -158,66 +116,75 @@ public class EditProfile extends AppCompatActivity {
         savenewpassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(newpassword.getText().toString().equals(confirmnewpassword.getText().toString())){
+                if(String.valueOf(newpassword).equals(String.valueOf(confirmnewpassword))){
                     // check the length of password
-                    String password =  newpassword.getText().toString().trim();
-                    Log.i("lol", String.valueOf(password.length()));
-                    if(password.length()<6){
+                    if(newpassword.length()<6){
                         newpassword.setError("Password Must be >= 6 Characters");
                     }
                     if(newpassword.getText().toString().isEmpty()){
                         newpassword.setError("Password cannot be empty");
                     }
                     else {
-                        parseUser.setPassword(newpassword.getText().toString());
-                        parseUser.saveInBackground();
+                        parseUser.setPassword(String.valueOf(newpassword));
                         Toast.makeText(EditProfile.this, "Password Updated", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     }
                 }
                 else{
-                    Toast.makeText(EditProfile.this,"Password failed to Updated" ,Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
+                    Toast.makeText(EditProfile.this,"Password failed to Updated" + newpassword + confirmnewpassword,Toast.LENGTH_SHORT).show();
                 }
             }
         });
+//        parseUser.saveInBackground(new SaveCallback() {
+//            @Override
+//            public void done(ParseException e) {
+//                if (null == e) {
+//                    // report about success
+//                    Toast.makeText(EditProfile.this,"Password Updated",Toast.LENGTH_SHORT).show();
+//                } else {
+//                    // report about error
+//                    Toast.makeText(EditProfile.this,"Password failed to Updated",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
     }
 
     public void createNewContactDialogemail(){
         dialogbuilder = new AlertDialog.Builder(this);
         final View conactPopupView = getLayoutInflater().inflate(R.layout.popupemail, null);
-        newemail = (EditText) conactPopupView.findViewById(R.id.newuser);
-        confirmnewemail = (EditText) conactPopupView.findViewById(R.id.confirmuser);
-        saveemail  = (Button) conactPopupView.findViewById(R.id.saveuser);
-        // get the old value of old email
-        String oldemail = ParseUser.getCurrentUser().getEmail();
+
         dialogbuilder.setView(conactPopupView);
         dialog = dialogbuilder.create();
         dialog.show();
-
         saveemail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(newemail.getText().toString().equals(confirmnewemail.getText().toString())){
-                if(oldemail.equals(newemail.getText().toString())){
-                    newemail.setError("Cannot use old email");
-                }
-                if(newemail.getText().toString().isEmpty()){
-                    newemail.setError("Email cannot be empty");
-                }
-                else {
                     parseUser.setEmail(newemail.getText().toString());
                     parseUser.saveInBackground();
-                    Toast.makeText(EditProfile.this, "Email Updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProfile.this,"Email Updated",Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
-                }
                 }
                 //shouldn't this part be different, correspond to the password button? This is still in the change email section.
                 else{
-                    Toast.makeText(EditProfile.this,"Email failed to Updated",Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
+//                    Toast.makeText(EditProfile.this,"Email failed to Updated",Toast.LENGTH_SHORT).show();
+                    Log.i(TAG , newpassword.getText().toString() + confirmnewpassword.getText().toString());
+//                    Log.e(TAG , error);
                 }
             }
         });
+//        parseUser.saveInBackground(new SaveCallback() {
+//            @Override
+//            public void done(ParseException e) {
+//                if (null == e) {
+//                    // report about success
+//                    Toast.makeText(EditProfile.this,"Email Updated",Toast.LENGTH_SHORT).show();
+//                } else {
+//                    // report about error
+//                    Toast.makeText(EditProfile.this,"Email failed to Updated",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+
     }
 }

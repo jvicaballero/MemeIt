@@ -1,10 +1,12 @@
 package com.example.memeit;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,18 +43,31 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> 
         return memes.size();
     }
 
+    public void clear(){
+        memes.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<Memes> meme){
+        memes.addAll(meme);
+        notifyDataSetChanged();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder{
 
         private ImageView ivMemePost;
+        private TextView title;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
             ivMemePost= itemView.findViewById(R.id.ivMemePost);
+            title= itemView.findViewById(R.id.memeTitle);
         }
 
         public void bind(Memes meme) {
-            if(meme.getMemeURL() != null)
-                Glide.with(context).load(meme.getMemeURL()).into(ivMemePost);
+            Log.i("Adapter", "Name: "+ meme.getmemeName() + ", URL: " + meme.getMemeURL());
+            title.setText(meme.getmemeName());
+            Glide.with(context).asGif().load(meme.getMemeURL()).into(ivMemePost);
         }
 
 

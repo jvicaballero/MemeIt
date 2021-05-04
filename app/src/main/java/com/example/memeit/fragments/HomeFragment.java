@@ -80,8 +80,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        bottomNav = view.findViewById(R.id.botton_navigation);
         showPopup = view.findViewById(R.id.dailyMemeButton);
 
         showPopup.setOnClickListener(new View.OnClickListener() {
