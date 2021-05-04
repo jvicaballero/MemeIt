@@ -24,8 +24,11 @@ import com.parse.SignUpCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.service.autofill.SaveCallback;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -37,11 +40,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 public class Register extends AppCompatActivity {
 
     public static final String TAG = "Register";
-
     EditText etUsername, etEmail, etPassword, etPassword2;
     Button etButton;
     TextView etAlready;
@@ -49,6 +52,7 @@ public class Register extends AppCompatActivity {
     ProgressBar progressBar;
     FirebaseUser user;
     ImageView profileImage;
+    ParseFile photo = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,13 +84,6 @@ public class Register extends AppCompatActivity {
             }
         });
 
-        profileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(openGalleryIntent,1000);
-            }
-        });
 
         etButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,40 +109,28 @@ public class Register extends AppCompatActivity {
 
                 progressBar.setVisibility(View.VISIBLE);
 
-                fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
+                // profile picture logic
+                Bitmap bitmapImage = ((BitmapDrawable) profileImage.getDrawable()).getBitmap(); // profile pic is the imageview
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+//                ParseFile file = new ParseFile("image.png", byteArray);
+//                ParseObject Images = new ParseObject("Images");
+//                Images.put("Profilepicture", file);
+//                Images.saveInBackground();
 
-                            user = FirebaseAuth.getInstance().getCurrentUser();
-                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName(username)
-                                    .build();
+                //update user db in parse also before starting mainACtivity
+                parseHandleSignupUser(email, username, password, byteArray);
 
-                            user.updateProfile(profileUpdates)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                                            }
-                                            else{
-                                                Log.i("lol", "User profile failed to updated.");
-                                            }
-                                        }
-                                    });
-                            Toast.makeText(Register.this, "User Created.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-                            //update user db in parse also before starting mainACtivity
-                            parseHandleSignupUser(email, username, password );
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        }
-                        else{
-                            Toast.makeText(Register.this, "Error" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
-                        }
-                    }
-                });
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // OPEN GALLERY
+                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(openGalleryIntent,1000);
             }
         });
 
@@ -156,35 +141,35 @@ public class Register extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1000){
-            if(requestCode == Activity.RESULT_OK){
+            if(resultCode == Activity.RESULT_OK){
                 Uri imageuri = data.getData();
                 profileImage.setImageURI(imageuri);
-                Bitmap bitmapImage = ((BitmapDrawable) profileImage.getDrawable()).getBitmap(); // profile pic is the imageview
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-                ParseFile file = new ParseFile("image.png", byteArray);
-                ParseObject Images = new ParseObject("Images");
-                Images.put("Profilepicture", file);
-                Images.saveInBackground();
             }
         }
     }
 
-    private void parseHandleSignupUser(String email, String username, String password){
+    private void parseHandleSignupUser(String email, String username, String password, byte[] byteArray){
         ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);
 
+        // profile picture
+        ParseFile file = new ParseFile("image.png", byteArray);
+        ParseObject Images = new ParseObject("Images");
+        Images.put("Profilepicture", file);
+//        Images.add("user", user.getObjectId());
+        Images.saveInBackground();
+
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
-                if( e != null){
-                    Log.e(TAG, "Issue with parse login", e);
-                    return;
+                if (e == null) {
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                } else {
+                    ParseUser.logOut();
+                    Toast.makeText(Register.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
-                Toast.makeText(Register.this,"Success signup in parse!" , Toast.LENGTH_SHORT);
             }
         });
     }

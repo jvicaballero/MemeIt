@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 import com.example.memeit.Auth.EditProfile;
 import com.example.memeit.Auth.Login;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.parse.ParseUser;
 
 public class Profile extends AppCompatActivity {
@@ -25,6 +28,7 @@ public class Profile extends AppCompatActivity {
     private BottomNavigationView bottomNav;
     ImageView appbarsinout;
     EditText setName, setEmail;
+    private ImageView profileimage1;
 
 
     @Override
@@ -60,6 +64,7 @@ public class Profile extends AppCompatActivity {
         }
         // end user info
         //  start bottom nav
+        bottomNav= findViewById(R.id.botton_navigation);
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -77,12 +82,18 @@ public class Profile extends AppCompatActivity {
             }
         });
         // end bottom nav
-        editprofile= findViewById(R.id.logout);
+        // set user profile picture
+        profileimage1 = findViewById(R.id.profimage1);
+
+        // end user profile
+        // start edit profile
+        editprofile= findViewById(R.id.editprofile);
         editprofile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), EditProfile.class));
             }
         });
+        // end user profile
     }
 }
