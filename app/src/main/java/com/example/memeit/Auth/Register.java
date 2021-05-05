@@ -114,10 +114,6 @@ public class Register extends AppCompatActivity {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
-//                ParseFile file = new ParseFile("image.png", byteArray);
-//                ParseObject Images = new ParseObject("Images");
-//                Images.put("Profilepicture", file);
-//                Images.saveInBackground();
 
                 //update user db in parse also before starting mainACtivity
                 parseHandleSignupUser(email, username, password, byteArray);
@@ -165,11 +161,9 @@ public class Register extends AppCompatActivity {
             public void done(ParseException e) {
                 if(null == e){
                     user.put("profpic" , file);
-
                 }
                 else{
                     Log.i(TAG, "No file uploaded");
-
                 }
             }
         });
@@ -178,6 +172,7 @@ public class Register extends AppCompatActivity {
 
         ParseObject Images = new ParseObject("Images");
         Images.put("Profilepicture", file);
+        Images.put("test", "lol");
 //        Images.add("user", user.getObjectId());
 //        Images.saveInBackground();
 
@@ -198,6 +193,7 @@ public class Register extends AppCompatActivity {
                             }
                         }
                     });
+//                    Images.setObjectId(user.getObjectId());
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
                 } else {
