@@ -23,12 +23,14 @@ import com.example.memeit.Auth.Login;
 import com.example.memeit.R;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -43,6 +45,7 @@ public class ProfileFragment extends Fragment {
     private ImageView profileimage;
     EditText setName, setEmail;
     ParseUser parseUser = ParseUser.getCurrentUser();
+    ParseObject Images;
 
     public ProfileFragment(){
 
@@ -76,34 +79,25 @@ public class ProfileFragment extends Fragment {
             setEmail.setText(email);
 
             // profile image
-            ParseQuery<ParseUser> imageQuery = ParseQuery.getQuery("Images");
-            imageQuery.whereEqualTo("objectId",ParseUser.getCurrentUser().getObjectId());
-            imageQuery.findInBackground(new FindCallback<ParseObject>()
-            {
-                @Override
-                public void done(List<ParseUser> users,ParseException e)
-                {
-                    for(ParseUser user : users)
-                    {
-                        ParseFile UserProPicFile = object.getParseFile("ImageColumnName");
-                        byte[] byteArray = new byte[0];
-
-                        byteArray = UserProPicFile.getData();
-                        Bitmap ProselectBit = BitmapFactory.decodeByteArray(byteArray,0,byteArray.length); //Bitmap with [rofile picture
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Images");
+            query.whereEqualTo("objectId","wqfO7R3BoA");
+            query.getFirstInBackground(new GetCallback<ParseObject>() {
+                public void done(ParseObject player, ParseException e) {
+                    if (e == null) {
+                        ParseFile file = player.getParseFile("Profilepicture");
+                        file.getDataInBackground(new GetDataCallback() {
+                            @Override
+                            public void done(byte[] data, ParseException e) {
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                profileimage.setImageBitmap(bitmap);
+                            }
+                        });
+                    } else {
+                        Log.e(TAG,e.toString());
+                        // Something is wrong
                     }
                 }
             });
-//            imageQuery.getFirstInBackground(new GetCallback<ParseObject>() {
-//                public void done(ParseObject Image, ParseException e) {
-//                    if (e == null) {
-//                        ParseFile postImage = object.getParseFile(ParseConstants.PARSE_KEY_FILE);
-//                        String imageUrl = postImage.getUrl() ;//live url
-//                        Uri imageUri = Uri.parse(imageUrl);
-//                    } else {
-//                        // Something is wrong
-//                    }
-//                }
-//            });
         }
 
         logout= view.findViewById(R.id.logout);

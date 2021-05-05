@@ -193,6 +193,7 @@ public class Register extends AppCompatActivity {
                             }
                         }
                     });
+//                    Images.setObjectId(user.getObjectId());
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
                 } else {
