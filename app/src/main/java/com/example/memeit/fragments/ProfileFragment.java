@@ -80,7 +80,7 @@ public class ProfileFragment extends Fragment {
 
             // profile image
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Images");
-            query.whereEqualTo("objectId","wqfO7R3BoA");
+            query.whereEqualTo("User_ID",ParseUser.getCurrentUser());
             query.getFirstInBackground(new GetCallback<ParseObject>() {
                 public void done(ParseObject player, ParseException e) {
                     if (e == null) {
