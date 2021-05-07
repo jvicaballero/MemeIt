@@ -30,7 +30,7 @@
 * [x]Authentication
 * []Up/Down voting posts
 * []Rating System (Popularity of Memes)
-* []Profiles
+* [X]Profiles
 * [x]save memes to a db
 * []save memes to profile
 
@@ -191,4 +191,7 @@ Giphy will actully generate the url needed for the endpoint/array of memes
 
 ### Week 2: Users can edit their credentials and login with the edited credentials
 <img src='https://media.giphy.com/media/7tdZc23V1cpAJfzCoV/giphy.gif' width='' alt='Video Walkthrough' />
+
+### Week 2: Profile Implemented, Fragments correctly implemented (starts a fragment not intent), Recyclerview for memes implemented.
+<img src='https://media.giphy.com/media/yVqdcG726QraMY1UHj/giphy.gif' width='' alt='Video Walkthrough' />
 
