@@ -193,5 +193,5 @@ Giphy will actully generate the url needed for the endpoint/array of memes
 <img src='https://media.giphy.com/media/7tdZc23V1cpAJfzCoV/giphy.gif' width='' alt='Video Walkthrough' />
 
 ### Week 3: Profile Implemented, Fragments correctly implemented (starts a fragment not intent), Recyclerview for memes implemented.
-<img src='https://media.giphy.com/media/yVqdcG726QraMY1UHj/giphy.gif' width='' alt='Video Walkthrough' />
+<img src='https://media.giphy.com/media/7C837DyvwagXfC3oGk/giphy.gif' width='' alt='Video Walkthrough' />
 
