@@ -5,14 +5,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.parse.GetCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
+import org.json.JSONArray;
+
+import java.lang.reflect.Array;
 import java.util.List;
 
 public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> {
@@ -57,20 +69,105 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> 
 
         private ImageView ivMemePost;
         private TextView title;
+        private Button saveMeme;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
             ivMemePost= itemView.findViewById(R.id.ivMemePost);
             title= itemView.findViewById(R.id.memeTitle);
+            saveMeme = itemView.findViewById(R.id.btnSaveMeme);
         }
 
         public void bind(Memes meme) {
             Log.i("Adapter", "Name: "+ meme.getmemeName() + ", URL: " + meme.getMemeURL());
             title.setText(meme.getmemeName());
             Glide.with(context).asGif().load(meme.getMemeURL()).into(ivMemePost);
+
+            saveMeme.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ParseQuery<ParseUser> savedMemesQuery = ParseUser.getQuery();
+                    savedMemesQuery.getInBackground(ParseUser.getCurrentUser().getObjectId(), new GetCallback<ParseUser>() {
+                        @Override
+                        public void done(ParseUser savedMemesDB, ParseException e) {
+                            if(e == null){
+                                savedMemesDB.add("savedMemes", meme);
+                                Log.i("SaveMemesComp" , "Meme Successfully Saved to parseobject! " + savedMemesDB);
+
+                                savedMemesDB.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        Log.i("SaveMemesComp" , "Inside saving");
+
+                                        if(e == null){
+//                                            Toast.makeText(MemesAdapter.this, "Meme Saved!", Toast.LENGTH_SHORT).show();;
+                                            Log.i("SaveMemesComp" , "Meme Successfully Saved to user account!");
+                                        }
+                                        else{
+                                            Log.i("SaveMemesComp", "Error P2 in saving meme " + e);
+                                        }
+                                    }
+                                });
+                            }
+                            else{
+                                Log.e("SaveMemesComp" , "Something went wrong saving " + e + savedMemesDB);
+                            }
+
+                        }
+                    });
+                }
+            });
         }
 
 
+
+    }
+    public JSONArray getSavedMemes(){
+        JSONArray getArray = new JSONArray();
+
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
+//        query.whereEqualTo("objectId" , ParseUser.getCurrentUser());
+
+//        ParseUser.getCurrentUser().getCurrentUser().get
+        getArray = ParseUser.getCurrentUser().getJSONArray("savedMemes");
+
+        Log.i("SaveMemesComp", "SavedMemesArray: " + getArray);
+
+        return getArray;
+
     }
 
+
+
 }
+
+//                    ParseQuery<ParseObject> savedMemesQuery = ParseQuery.getQuery("User");
+//                    savedMemesQuery.getInBackground(ParseUser.getCurrentUser().getObjectId(), new GetCallback<ParseObject>() {
+//                        @Override
+//                        public void done(ParseObject savedMemesDB, ParseException e) {
+//                            if(e == null){
+//                                savedMemesDB.add("savedMemes" , meme);
+//                                Log.i("SaveMemesComp" , "Meme Successfully Saved to parseobject! " + savedMemesDB);
+//
+//                                savedMemesDB.saveInBackground(new SaveCallback() {
+//                                    @Override
+//                                    public void done(ParseException e) {
+//                                        Log.i("SaveMemesComp" , "Inside saving");
+//
+//                                        if(e == null){
+//                                            Log.i("SaveMemesComp" , "Meme Successfully Saved to user account!");
+//                                        }
+//                                        else{
+//                                            Log.i("SaveMemesComp", "Error P2 in saving meme " + e);
+//                                        }
+//                                    }
+//                                });
+//                            }
+//                            else {
+//                                Log.e("SaveMemesComp" , "Something went wrong saving " + e + savedMemesDB);
+////                                savedMemesDB.add("savedMemes" , meme);
+//
+//                            }
+//
+//                        }
+//                    });
