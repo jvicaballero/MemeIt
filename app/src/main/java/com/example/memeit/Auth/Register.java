@@ -172,9 +172,6 @@ public class Register extends AppCompatActivity {
 
         ParseObject Images = new ParseObject("Images");
         Images.put("Profilepicture", file);
-        Images.put("test", "lol");
-//        Images.add("user", user.getObjectId());
-//        Images.saveInBackground();
 
 
         user.signUpInBackground(new SignUpCallback() {
@@ -193,9 +190,9 @@ public class Register extends AppCompatActivity {
                             }
                         }
                     });
-//                    Images.setObjectId(user.getObjectId());
+//                    Log.i(TAG, Images.getObjectId());
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
-
+//                    user.put("imageID", Images.getObjectId());
                 } else {
                     ParseUser.logOut();
                     Toast.makeText(Register.this, e.getMessage(), Toast.LENGTH_LONG).show();
