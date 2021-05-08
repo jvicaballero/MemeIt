@@ -91,6 +91,12 @@ public class Register extends AppCompatActivity {
                 String email =  etEmail.getText().toString().trim();
                 String password =  etPassword.getText().toString().trim();
                 String username = etUsername.getText().toString();
+                if(TextUtils.isEmpty(username)){
+                    etUsername.setError("Username Required");
+                    progressBar.setVisibility(View.INVISIBLE);
+                    return;
+                }
+
                 if(TextUtils.isEmpty(email)){
                     etEmail.setError("Email Required");
                     progressBar.setVisibility(View.INVISIBLE);
