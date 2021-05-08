@@ -63,6 +63,9 @@ dependencies {
 
     // picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    // twitter like button
+    compile 'com.github.jd-alexander:LikeButton:0.2.3'
 }
 
 apply plugin: 'com.google.gms.google-services'  // Google Services plugin

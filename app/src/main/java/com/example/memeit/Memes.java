@@ -8,14 +8,10 @@ public class Memes extends ParseObject {
 //get and set memes
     public static final String memeURL= "memeURL";
     public static final String memeName= "memeName";
-    public static final String UpvoteVal= "UpvoteVal";
-    public static final String DownvoteVal= "DownvoteVal";
+    public static final String voteVal= "votes";
 
-    public int getUpvoteVal() {
-        return getInt(UpvoteVal);
-    }
-    public int getDownvoteVal() {
-        return getInt(DownvoteVal);
+    public int voteVal() {
+        return getInt(voteVal);
     }
     public String getMemeURL(){
         return getString(memeURL);
@@ -31,11 +27,8 @@ public class Memes extends ParseObject {
     public void setmemeName(String name) {
         put(memeName,name);
     }
-    public void setUpvoteVal(Integer upvote) {
-        put(UpvoteVal,upvote);
-    }
-    public void setDownvoteVal(Integer downvote) {
-        put(DownvoteVal,downvote);
+    public void setvoteVal(Integer upvote) {
+        put(voteVal,upvote);
     }
 
 }
