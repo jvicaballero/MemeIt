@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.parse.GetCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -23,15 +22,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
-import org.json.JSONArray;
-
-import java.lang.reflect.Array;
 import java.util.List;
 
 public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> {
@@ -84,7 +75,7 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> 
             super(itemView);
             ivMemePost= itemView.findViewById(R.id.ivMemePost);
             title= itemView.findViewById(R.id.memeTitle);
-            saveMeme = itemView.findViewById(R.id.btnSaveMeme);
+            saveMeme = itemView.findViewById(R.id.btnSave);
             memenumbers = itemView.findViewById(R.id.memenumbers);
             memelikebutton = itemView.findViewById(R.id.memelikebutton);
         }
@@ -108,6 +99,21 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> 
                     });
                     memenumbers.setText(String.valueOf(meme.voteVal()));
                 }
+
+                @Override
+                public void unLiked(LikeButton likeButton) {
+                    meme.setvoteVal(meme.voteVal()-1);
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("memes");
+                    query.getInBackground(meme.getObjectId(), new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject object, ParseException e) {
+                            object.put("votes", meme.voteVal());
+                            object.saveInBackground();
+                        }
+                    });
+                    memenumbers.setText(String.valueOf(meme.voteVal()));
+                }
+            });
 
             saveMeme.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -146,24 +152,6 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> 
 
                         }
                     });
-                }
-            });
-        }
-
-
-
-                @Override
-                public void unLiked(LikeButton likeButton) {
-                    meme.setvoteVal(meme.voteVal()-1);
-                    ParseQuery<ParseObject> query = ParseQuery.getQuery("memes");
-                    query.getInBackground(meme.getObjectId(), new GetCallback<ParseObject>() {
-                        @Override
-                        public void done(ParseObject object, ParseException e) {
-                            object.put("votes", meme.voteVal());
-                            object.saveInBackground();
-                        }
-                    });
-                    memenumbers.setText(String.valueOf(meme.voteVal()));
                 }
             });
         }
