@@ -192,8 +192,7 @@ public class HomeFragment extends Fragment {
                     Memes meme = new Memes();
                     meme.setMemeURL(URL);
                     meme.setmemeName(title);
-                    meme.setDownvoteVal(0);
-                    meme.setUpvoteVal(0);
+                    meme.setvoteVal(0);
 
                     meme.saveInBackground(new SaveCallback() {
                         @Override
