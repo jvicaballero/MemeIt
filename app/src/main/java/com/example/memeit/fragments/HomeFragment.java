@@ -71,6 +71,7 @@ public class HomeFragment extends Fragment {
     protected List<Memes> memesList;
     protected saveMemesAdapter saveMemesAdapter;
 
+
     public HomeFragment() {
 
     }
@@ -92,6 +93,9 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showPopup = view.findViewById(R.id.dailyMemeButton);
+
+        //The reason for the error was because I was editing the same array list as the one binded to the adapter. So after adding the meme to the array list, i call clear which clears out the array.
+        //Adding all to the array list would show empty because the same array was cleared after calling clear().
 
 //        Memes newMeme = new Memes();
 //

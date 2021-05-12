@@ -105,7 +105,7 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> 
                                         Log.i("SaveMemesComp" , "Inside saving");
 
                                         if(e == null){
-//                                            Toast.makeText(getContext(), "Meme Saved!", Toast.LENGTH_SHORT).show();;
+                                            Toast.makeText(context, "Meme Saved!", Toast.LENGTH_SHORT).show();;
                                             Log.i("SaveMemesComp" , "Meme Successfully Saved to user account!");
                                         }
                                         else{
