@@ -5,16 +5,16 @@
     <item
         android:id="@+id/postings"
         android:icon="@drawable/homeicon"
-        android:title="post"
+        android:title=""
         app:showAsAction="always" />
     <item
         android:id="@+id/profile"
         android:icon="@drawable/profileicon"
-        android:title="profile"
+        android:title=""
         app:showAsAction="always" />
     <item
         android:id="@+id/saved"
         android:icon="@drawable/ic_baseline_bookmark_border_24"
-        android:title="saved"
+        android:title=""
         app:showAsAction="always" />
 </menu>

@@ -12,11 +12,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="83dp"
-        android:layout_marginEnd="177dp"
-        android:text="Meme" />
+        android:layout_alignParentEnd="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="0dp"
+        android:text="Meme"
+        android:textAlignment="center" />
 
+    <ImageView
+        android:id="@+id/ivMeme"
+        android:layout_width="294dp"
+        android:layout_height="303dp"
+        android:layout_below="@+id/dailyMemeButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        tools:srcCompat="@tools:sample/avatars" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSaveMemes"
         android:layout_width="match_parent"
