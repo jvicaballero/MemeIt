@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/saveMemesContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.HomeFragment">
@@ -11,10 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="false"
+        android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="0dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="7dp"
         android:text="Meme"
         android:textAlignment="center" />
 
@@ -26,5 +27,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         tools:srcCompat="@tools:sample/avatars" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSaveMemes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>

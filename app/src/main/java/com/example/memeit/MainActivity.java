@@ -83,16 +83,16 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.postings:
-                        fragment = new HomeFragment();
+                        fragment = new MemeFragment();
                         break;
                     case R.id.profile:
                         fragment = new ProfileFragment();
                         break;
                     case R.id.saved:
-                        fragment = new MemeFragment();
+                        fragment = new HomeFragment();
                         break;
                     default:
-                        fragment = new HomeFragment();
+                        fragment = new MemeFragment();
                         break;
                 }
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();

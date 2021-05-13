@@ -5,20 +5,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.like.LikeButton;
-import com.like.OnLikeListener;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.util.List;
 
@@ -64,6 +67,7 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> 
 
         private ImageView ivMemePost;
         private TextView title;
+        private Button saveMeme;
         private TextView memenumbers;
         private LikeButton memelikebutton;
 
@@ -71,11 +75,14 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> 
             super(itemView);
             ivMemePost= itemView.findViewById(R.id.ivMemePost);
             title= itemView.findViewById(R.id.memeTitle);
+            saveMeme = itemView.findViewById(R.id.btnSave);
             memenumbers = itemView.findViewById(R.id.memenumbers);
             memelikebutton = itemView.findViewById(R.id.memelikebutton);
         }
 
         public void bind(Memes meme) {
+            Log.i("SaveMemesComp", "Check recv list Before going into save function: " + getItemCount());
+
             Log.i("Adapter", "Name: "+ meme.getmemeName() + ", URL: " + meme.getMemeURL());
             title.setText(meme.getmemeName());
             memenumbers.setText(String.valueOf(meme.voteVal()));
@@ -109,6 +116,54 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> 
                     memenumbers.setText(String.valueOf(meme.voteVal()));
                 }
             });
+
+            saveMeme.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i("SaveMemesComp", "Check recv list BEFORE saving meme to account: " + getItemCount());
+
+                    ParseQuery<ParseUser> savedMemesQuery = ParseUser.getQuery();
+                    savedMemesQuery.getInBackground(ParseUser.getCurrentUser().getObjectId(), new GetCallback<ParseUser>() {
+                        @Override
+                        public void done(ParseUser savedMemesDB, ParseException e) {
+                            if(e == null){
+//                                Memes storeMeme = new Memes();
+//
+//                                storeMeme.setmemeName(meme.getmemeName());
+//                                storeMeme.setMemeURL(meme.getMemeURL());
+
+//                                savedMemesDB.add("savedMemes", storeMeme);
+                                savedMemesDB.add("savedMemes", meme);
+                                Log.i("SaveMemesComp" , "Meme Successfully Saved to parseobject! " + savedMemesDB);
+
+                                savedMemesDB.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        Log.i("SaveMemesComp" , "Inside saving");
+
+                                        if(e == null){
+                                            Toast.makeText(context, "Meme Saved!", Toast.LENGTH_SHORT).show();;
+                                            Log.i("SaveMemesComp" , "Meme Successfully Saved to user account!");
+                                        }
+                                        else{
+                                            Log.i("SaveMemesComp", "Error P2 in saving meme " + e);
+                                        }
+                                    }
+                                });
+                                Log.i("SaveMemesComp", "Check recv list AFTER saving meme to account: " + getItemCount());
+
+                            }
+                            else{
+                                Log.e("SaveMemesComp" , "Something went wrong saving " + e + savedMemesDB);
+                            }
+
+                        }
+                    });
+                    Log.i("SaveMemesComp", "Check recv list AFTER saving meme to account: " + getItemCount());
+
+                }
+            });
         }
     }
+
 }
