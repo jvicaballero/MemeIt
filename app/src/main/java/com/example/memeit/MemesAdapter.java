@@ -81,6 +81,8 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> 
         }
 
         public void bind(Memes meme) {
+            Log.i("SaveMemesComp", "Check recv list Before going into save function: " + getItemCount());
+
             Log.i("Adapter", "Name: "+ meme.getmemeName() + ", URL: " + meme.getMemeURL());
             title.setText(meme.getmemeName());
             memenumbers.setText(String.valueOf(meme.voteVal()));
@@ -118,17 +120,20 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> 
             saveMeme.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.i("SaveMemesComp", "Check recv list BEFORE saving meme to account: " + getItemCount());
+
                     ParseQuery<ParseUser> savedMemesQuery = ParseUser.getQuery();
                     savedMemesQuery.getInBackground(ParseUser.getCurrentUser().getObjectId(), new GetCallback<ParseUser>() {
                         @Override
                         public void done(ParseUser savedMemesDB, ParseException e) {
                             if(e == null){
-                                Memes storeMeme = new Memes();
+//                                Memes storeMeme = new Memes();
+//
+//                                storeMeme.setmemeName(meme.getmemeName());
+//                                storeMeme.setMemeURL(meme.getMemeURL());
 
-                                storeMeme.setmemeName(meme.getmemeName());
-                                storeMeme.setMemeURL(meme.getMemeURL());
-
-                                savedMemesDB.add("savedMemes", storeMeme);
+//                                savedMemesDB.add("savedMemes", storeMeme);
+                                savedMemesDB.add("savedMemes", meme);
                                 Log.i("SaveMemesComp" , "Meme Successfully Saved to parseobject! " + savedMemesDB);
 
                                 savedMemesDB.saveInBackground(new SaveCallback() {
@@ -145,6 +150,8 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> 
                                         }
                                     }
                                 });
+                                Log.i("SaveMemesComp", "Check recv list AFTER saving meme to account: " + getItemCount());
+
                             }
                             else{
                                 Log.e("SaveMemesComp" , "Something went wrong saving " + e + savedMemesDB);
@@ -152,6 +159,8 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> 
 
                         }
                     });
+                    Log.i("SaveMemesComp", "Check recv list AFTER saving meme to account: " + getItemCount());
+
                 }
             });
         }

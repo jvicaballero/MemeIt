@@ -45,14 +45,17 @@ public class MemeFragment extends Fragment {
         rvMemes = view.findViewById(R.id.rvMemes);
         allMemes= new ArrayList<>();
         adapter= new MemesAdapter(getContext(), allMemes);
-        
+
+
         rvMemes.setAdapter(adapter);
         rvMemes.setLayoutManager(new LinearLayoutManager(getContext()));
         getMemes();
+
     }
 
     private void getMemes() {
         ParseQuery<Memes> query = ParseQuery.getQuery(Memes.class);
+        Log.i("SaveMemesComp" , "Check Size of list BEFORE getting memes getMemes() " + adapter.getItemCount());
 //        query.addDescendingOrder(Memes.);
         query.findInBackground(new FindCallback<Memes>() {
             @Override
@@ -67,6 +70,8 @@ public class MemeFragment extends Fragment {
                 adapter.clear();
                 adapter.addAll(memes);
                 adapter.notifyDataSetChanged();
+                Log.i("SaveMemesComp" , "Check Size of list AFTER getting memes getMemes() " + adapter.getItemCount());
+
             }
         });
     }

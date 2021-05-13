@@ -276,6 +276,7 @@ public class HomeFragment extends Fragment {
                     resultMemeQuery.setmemeName(memeName);
                     Log.i("SaveMemesComp", "In function search memes: " + resultMemeQuery.getmemeName() + ' ' + resultMemeQuery.getMemeURL());
                     memesList.add(resultMemeQuery);
+                    Log.i("SaveMemesComp", "Lets check whats in memesList: " + memesList.toString());
 //                    saveMemesAdapter.clearThis();
 //
 //
