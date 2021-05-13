@@ -9,6 +9,15 @@
     android:layout_marginBottom="20dp"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/memeTitle"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="TextView"
+        android:textSize="24sp"
+        android:translationX="50dp" />
+
     <ImageView
         android:id="@+id/ivMemePost"
         android:layout_width="match_parent"
@@ -40,28 +49,24 @@
                 app:icon_size="10dp"
                 app:icon_type="heart" />
 
-    <Button
-        android:id="@+id/btnSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save" />
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:translationX="260dp" />
 
             <TextView
                 android:id="@+id/memenumbers"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="50dp"
-                android:text="haha" />
+                android:text="haha"
+                android:translationX="5sp"
+                android:translationY="-35dp" />
 
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/memeTitle"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:text="TextView"
-            android:textSize="24sp" />
     </LinearLayout>
 </LinearLayout>
