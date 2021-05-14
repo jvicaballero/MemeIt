@@ -195,3 +195,6 @@ Giphy will actully generate the url needed for the endpoint/array of memes
 ### Week 3: Profile Implemented, Fragments correctly implemented (starts a fragment not intent), Recyclerview for memes implemented.
 <img src='https://media.giphy.com/media/7C837DyvwagXfC3oGk/giphy.gif' width='' alt='Video Walkthrough' />
 
+### Week 4: Likes component implemented, and users can save memes to their profile from the Home Recycler View. A user can only like and dislike a specific meme only once!
+<img src='https://media.giphy.com/media/4k61AFzAey26GuibFz/giphy.gif' width='' alt='Video Walkthrough' />
+
