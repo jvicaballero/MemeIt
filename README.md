@@ -28,11 +28,10 @@
 
 
 * [x]Authentication
-* []Up/Down voting posts
-* []Rating System (Popularity of Memes)
+* [X]Up/Down voting posts
 * [X]Profiles
 * [x]save memes to a db
-* []save memes to profile
+* [X]save memes to profile
 
 
 **Optional Nice-to-have Stories**
@@ -41,6 +40,8 @@
 * a friend list of users
 * Commenting 
 * Upvoting/downvoting comments
+* Rating System (Popularity of Memes)
+
 
 
 ### 2. Screen Archetypes
