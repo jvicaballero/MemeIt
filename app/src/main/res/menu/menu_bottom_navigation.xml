@@ -5,16 +5,19 @@
     <item
         android:id="@+id/postings"
         android:icon="@drawable/homeicon"
-        android:title=""
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/profile"
-        android:icon="@drawable/profileicon"
-        android:title=""
-        app:showAsAction="always" />
+        android:title="Home"
+        app:showAsAction="always"
+        app:cnb_iconColor="@color/yellow" />
     <item
         android:id="@+id/saved"
         android:icon="@drawable/ic_baseline_bookmark_border_24"
-        android:title=""
-        app:showAsAction="always" />
+        android:title="Saved"
+        app:showAsAction="always"
+        app:cnb_iconColor="@color/yellow"/>
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/profileicon"
+        android:title="Profile"
+        app:showAsAction="always"
+        app:cnb_iconColor="@color/yellow"/>
 </menu>

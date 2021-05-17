@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/setName"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="106dp"
+        android:layout_marginStart="9dp"
         android:layout_marginTop="20dp"
         android:text="change username" />
 
@@ -57,8 +57,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/changename"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="106dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="210dp"
+        android:layout_marginTop="-49dp"
         android:text="Change Password" />
 
     <ImageView
