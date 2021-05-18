@@ -1,6 +1,7 @@
 package com.example.memeit;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ShareCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -67,7 +69,7 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> 
 
         private ImageView ivMemePost;
         private TextView title;
-        private Button saveMeme;
+        private Button saveMeme, sharememe;
         private TextView memenumbers;
         private LikeButton memelikebutton;
 
@@ -76,6 +78,7 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> 
             ivMemePost= itemView.findViewById(R.id.ivMemePost);
             title= itemView.findViewById(R.id.memeTitle);
             saveMeme = itemView.findViewById(R.id.btnSave);
+            sharememe = itemView.findViewById(R.id.btnshare);
             memenumbers = itemView.findViewById(R.id.memenumbers);
             memelikebutton = itemView.findViewById(R.id.memelikebutton);
         }
@@ -114,6 +117,18 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.ViewHolder> 
                         }
                     });
                     memenumbers.setText(String.valueOf(meme.voteVal()));
+                }
+            });
+
+            sharememe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent share = new Intent();
+                    share.setAction(Intent.ACTION_SEND);
+                    share.setType("text/plain");
+                    share.putExtra(Intent.EXTRA_SUBJECT, meme.getmemeName());
+                    share.putExtra(Intent.EXTRA_TEXT, meme.getMemeURL());
+                    context.startActivity(Intent.createChooser(share, "Share URL"));
                 }
             });
 

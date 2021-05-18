@@ -35,6 +35,7 @@ import com.example.memeit.fragments.ProfileFragment;
 import com.example.memeit.models.DailyMeme;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -57,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TRENDING_MEME_URL = "https://api.giphy.com/v1/gifs/trending?api_key=85yQsmwttEKrF5w5R3AAPMd3UpbVwKsC&limit=25&rating=g";
 
-    private BottomNavigationView bottomNav;
+    private ChipNavigationBar bottomNav;
+//    private BottomNavigationView bottomNav;
+    private Fragment fragment = null;
 
     Button showPopup;
 
@@ -75,13 +78,13 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNav = findViewById(R.id.bottom_navigation);
         showPopup = findViewById(R.id.dailyMemeButton);
+        bottomNav.setItemSelected(R.id.postings,true);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, new MemeFragment()).commit();
 
-
-        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottomNav.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment;
-                switch (item.getItemId()) {
+            public void onItemSelected(int i) {
+                switch (i){
                     case R.id.postings:
                         fragment = new MemeFragment();
                         break;
@@ -95,12 +98,36 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new MemeFragment();
                         break;
                 }
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-                return true;
+                if(fragment!=null){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                }
             }
         });
 
-        bottomNav.setSelectedItemId(R.id.postings);
+//        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                Fragment fragment;
+//                switch (item.getItemId()) {
+//                    case R.id.postings:
+//                        fragment = new MemeFragment();
+//                        break;
+//                    case R.id.profile:
+//                        fragment = new ProfileFragment();
+//                        break;
+//                    case R.id.saved:
+//                        fragment = new HomeFragment();
+//                        break;
+//                    default:
+//                        fragment = new MemeFragment();
+//                        break;
+//                }
+//                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+//                return true;
+//            }
+//        });
+//
+//        bottomNav.setSelectedItemId(R.id.postings);
     }
 }
 
