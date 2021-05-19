@@ -99,30 +99,37 @@ public class saveMemesAdapter extends RecyclerView.Adapter<saveMemesAdapter.View
 
 //                                savedMemesDB.remove("savedMemes", meme);
 //                                savedMemesDB.removeAll("savedMemes", meme);
-                                Object savedMemes = savedMemesDB.getJSONArray("savedMemes").remove(getAdapterPosition());
-//                                savedMemesDB.
+//                                Object savedMemes = savedMemesDB.getJSONArray("savedMemes").remove(getAdapterPosition());
+//                                Object savedMemes = savedMemesDB.getList("savedMemes").remove(getAdapterPosition());
+                                List<Memes> savedMemes = savedMemesDB.getList("savedMemes");
+                                savedMemes.remove(getAdapterPosition());
+
 //                                Log.i("RemoveMemesComp" , savedMemes.toString());
 //
 //                                savedMemes.remove(getAdapterPosition());
 
 //                                savedMemesDB.remove("savedMemes");
 
-                                Log.i("RemoveMemesComp" , "Meme Successfully Removed to parseobject! " + savedMemes.toString());
-
-                                savedMemesDB.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        Log.i("RemoveMemesComp" , "Inside saving");
-
-                                        if(e == null){
-                                            Toast.makeText(context, "Meme Removed!", Toast.LENGTH_SHORT).show();;
-                                            Log.i("RemoveMemesComp" , "Meme Successfully Saved to user account!");
-                                        }
-                                        else{
-                                            Log.i("RemoveMemesComp", "Error P2 in saving meme " + e);
-                                        }
-                                    }
-                                });
+                                Log.i("RemoveMemesComp" , "Meme Successfully Removed to parseobject! " + saveMemesAdapter.this.savedMemes.toString());
+                                for(int i = 0; i < savedMemes.size(); i++){
+                                    Log.i("RemoveMemesComp", "The Name of meme: " + savedMemes.get(i).getObjectId());
+                                }
+                                savedMemesDB.put("savedMemes", savedMemes);
+                                savedMemesDB.saveInBackground();
+//                                savedMemesDB.saveInBackground(new SaveCallback() {
+//                                    @Override
+//                                    public void done(ParseException e) {
+//                                        Log.i("RemoveMemesComp" , "Inside saving");
+//
+//                                        if(e == null){
+//                                            Toast.makeText(context, "Meme Removed!", Toast.LENGTH_SHORT).show();;
+//                                            Log.i("RemoveMemesComp" , "Meme Successfully Removed to user account!");
+//                                        }
+//                                        else{
+//                                            Log.i("RemoveMemesComp", "Error P2 in saving meme " + e);
+//                                        }
+//                                    }
+//                                });
                             }
                             else{
                                 Log.e("RemoveMemesComp" , "Something went wrong saving " + e + savedMemesDB);
