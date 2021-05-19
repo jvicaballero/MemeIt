@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,6 +54,8 @@ public class HomeFragment extends Fragment {
     final String TAG = "MainActivity";
     Button button;
 
+    private AlertDialog.Builder dialogbuilder;
+    private AlertDialog dialog;
 
     final String TRENDING_MEME_URL = "https://api.giphy.com/v1/gifs/trending?api_key=85yQsmwttEKrF5w5R3AAPMd3UpbVwKsC&limit=25&rating=g";
 
@@ -147,35 +151,22 @@ public class HomeFragment extends Fragment {
     }
 
     public void createDailyMemePopup() {
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View dailyMemePopup = inflater.inflate(R.layout.daily_meme_popup_page, null);
 
-        dailyMemeTitle = dailyMemePopup.findViewById(R.id.tvDailyMemeTitle);
-        dailyMemeImage = dailyMemePopup.findViewById(R.id.ivShowDailyMeme);
+        dialogbuilder = new AlertDialog.Builder(getContext());
+        final View conactPopupView = getLayoutInflater().inflate(R.layout.daily_meme_popup_page, null);
+        dailyMemeTitle = (TextView) conactPopupView.findViewById(R.id.tvDailyMemeTitle);
+        dailyMemeImage = (ImageView) conactPopupView.findViewById(R.id.ivShowDailyMeme);
 
         //in here, call the function to add the queried meme
         addMeme(dailyMeme.getDailyMemeTitle(), dailyMeme.getDailyMemePath());
 
         dailyMemeTitle.setText(dailyMeme.getDailyMemeTitle());
         Glide.with(this).asGif().load(dailyMeme.getDailyMemePath()).into(dailyMemeImage);
-
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow popupWindow = new PopupWindow(dailyMemePopup, width, height, focusable);
-
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
-        popupWindow.showAtLocation(dailyMemePopup, Gravity.CENTER, 0, 0);
-
-        // dismiss the popup window when touched
-        dailyMemePopup.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                popupWindow.dismiss();
-                return true;
-            }
-        });
+        dialogbuilder.setView(conactPopupView);
+        dialog = dialogbuilder.create();
+        dialog.show();
+//        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        View dailyMemePopup = inflater.inflate(R.layout.daily_meme_popup_page, null);
     }
 
     void addMeme (String title, String URL){

@@ -15,6 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="144dp"
         android:layout_marginTop="54dp"
+        android:gravity="center"
         android:text="Meme Of The Day"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -33,6 +34,7 @@
     <TextView
         android:id="@+id/tvDailyMemeTitle"
         android:layout_width="wrap_content"
+        android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
