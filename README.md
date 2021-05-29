@@ -36,7 +36,6 @@
 
 **Optional Nice-to-have Stories**
 
-* Advance Settings such chanage password
 * a friend list of users
 * Commenting 
 * Upvoting/downvoting comments
